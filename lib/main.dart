@@ -1,11 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:interview_demo_application/apis/encrypt_decrypt_apis.dart';
 import 'package:interview_demo_application/apis/google_apis.dart';
 import 'package:interview_demo_application/firebase_options.dart';
 import 'package:interview_demo_application/screens/splash.dart';
 import 'package:provider/provider.dart';
-
-import 'screens/login.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +21,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => GoogleApis(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => EncryptDecryptData(),
         ),
       ],
       builder: (context, child) {

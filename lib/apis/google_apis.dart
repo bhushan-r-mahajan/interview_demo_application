@@ -7,6 +7,7 @@ import 'package:interview_demo_application/screens/login.dart';
 class GoogleApis extends ChangeNotifier {
   bool isLoading = false;
   bool isValidLogin = false;
+  String userName = "User";
   Widget homePage = const LoginScreen();
 
   //create an instance of firebas auth and google signin
@@ -36,8 +37,12 @@ class GoogleApis extends ChangeNotifier {
         idToken: googleSignInAuth.idToken,
       );
       //Signin the user with credentials
-      await firebaseAuth.signInWithCredential(credential);
+      UserCredential userCredential =
+          await firebaseAuth.signInWithCredential(credential);
 
+      if (userCredential.user != null) {
+        userName = userCredential.user!.displayName!;
+      }
       isValidLogin = true;
       isLoading = false;
       notifyListeners();
@@ -56,6 +61,7 @@ class GoogleApis extends ChangeNotifier {
     final user = firebaseAuth.currentUser;
 
     if (user != null) {
+      userName = user.displayName ?? user.email!;
       homePage = const HomePage();
     } else {
       homePage = const LoginScreen();

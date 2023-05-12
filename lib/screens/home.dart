@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:interview_demo_application/apis/google_apis.dart';
 import 'package:interview_demo_application/screens/encrypt_decrypt.dart';
 import 'package:interview_demo_application/screens/login.dart';
 import 'package:interview_demo_application/screens/stopwatch.dart';
 import 'package:provider/provider.dart';
 
+import '../helpers/constants.dart';
+import '../helpers/textstyles.dart';
 import 'todo_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,15 +29,18 @@ class _HomePageState extends State<HomePage> {
     var googleApis = Provider.of<GoogleApis>(context, listen: true);
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text("Welcome ${googleApis.userName}"),
+          centerTitle: true,
+        ),
         drawer: Drawer(
           child: Column(
             children: [
               Container(
                 padding: const EdgeInsets.all(20),
                 child: const Text(
-                  "Demo App",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                  Constants.appName,
+                  style: TextStyles.appNameTextStyle,
                 ),
               ),
               const Divider(
@@ -50,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(10),
                   child: const Text(
                     "Change Language",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                    style: TextStyles.defaultBoldTextStyle,
                   ),
                 ),
               ),
@@ -73,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(10),
                   child: const Text(
                     "Logout",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                    style: TextStyles.defaultBoldTextStyle,
                   ),
                 ),
               ),

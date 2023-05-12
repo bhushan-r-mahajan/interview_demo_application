@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:interview_demo_application/helpers/constants.dart';
+import 'package:interview_demo_application/helpers/textstyles.dart';
 import 'package:provider/provider.dart';
 
 import '../apis/google_apis.dart';
@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _navigateToNextScreen() async {
     var googleApis = Provider.of<GoogleApis>(context, listen: false);
-    await Future.delayed(const Duration(seconds: 4), () async {
+    await Future.delayed(const Duration(seconds: 3), () async {
       await googleApis.checkIfUserIsAlreadyLoggedIn();
     });
     if (mounted) {
@@ -40,11 +40,8 @@ class _SplashScreenState extends State<SplashScreen> {
     return const Scaffold(
       body: Center(
         child: Text(
-          "Demo App",
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
+          Constants.appName,
+          style: TextStyles.appNameTextStyle,
         ),
       ),
     );

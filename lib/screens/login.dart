@@ -3,6 +3,9 @@ import 'package:interview_demo_application/apis/google_apis.dart';
 import 'package:interview_demo_application/screens/home.dart';
 import 'package:provider/provider.dart';
 
+import '../helpers/constants.dart';
+import '../helpers/textstyles.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -27,11 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               const Text(
-                "Demo App",
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
+                Constants.appName,
+                style: TextStyles.appNameTextStyle,
               ),
               const SizedBox(height: 30),
               //Feature List
@@ -40,31 +40,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: const [
                   Text(
                     "1. Encrypt/Decrypt",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyles.defaultBoldTextStyle,
                   ),
                   Text(
                     "2. To-Do List",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyles.defaultBoldTextStyle,
                   ),
                   Text(
                     "3. Stopwatch",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyles.defaultBoldTextStyle,
                   ),
                   Text(
                     "4. Multiple Languages",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyles.defaultBoldTextStyle,
                   ),
                 ],
               ),
@@ -98,6 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             const Text(
                               "Sign in using Google",
+                              style: TextStyles.defaultTextStyle,
                             ),
                           ],
                         ),
