@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:interview_demo_application/screens/home.dart';
 import 'package:interview_demo_application/screens/login.dart';
 
-class GoogleApis extends ChangeNotifier {
+class GoogleSignInController extends ChangeNotifier {
   bool isLoading = false;
   bool isValidLogin = false;
   String userName = "User";

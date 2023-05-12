@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:interview_demo_application/apis/google_apis.dart';
+import 'package:interview_demo_application/controllers/google_sigin.dart';
 import 'package:interview_demo_application/screens/encrypt_decrypt.dart';
 import 'package:interview_demo_application/screens/login.dart';
 import 'package:interview_demo_application/screens/stopwatch.dart';
@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var googleApis = Provider.of<GoogleApis>(context, listen: true);
+    var googleApis = Provider.of<GoogleSignInController>(context, listen: true);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

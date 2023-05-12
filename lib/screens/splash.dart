@@ -3,7 +3,7 @@ import 'package:interview_demo_application/helpers/constants.dart';
 import 'package:interview_demo_application/helpers/textstyles.dart';
 import 'package:provider/provider.dart';
 
-import '../apis/google_apis.dart';
+import '../controllers/google_sigin.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,7 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateToNextScreen() async {
-    var googleApis = Provider.of<GoogleApis>(context, listen: false);
+    var googleApis =
+        Provider.of<GoogleSignInController>(context, listen: false);
     await Future.delayed(const Duration(seconds: 3), () async {
       await googleApis.checkIfUserIsAlreadyLoggedIn();
     });

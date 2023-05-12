@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:interview_demo_application/apis/encrypt_decrypt_apis.dart';
-import 'package:interview_demo_application/apis/google_apis.dart';
+import 'package:interview_demo_application/controllers/encrypt_decrypt.dart';
+import 'package:interview_demo_application/controllers/google_sigin.dart';
+import 'package:interview_demo_application/controllers/stopwatch.dart';
 import 'package:interview_demo_application/firebase_options.dart';
 import 'package:interview_demo_application/screens/splash.dart';
 import 'package:provider/provider.dart';
@@ -20,10 +21,13 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => GoogleApis(),
+          create: (context) => GoogleSignInController(),
         ),
         ChangeNotifierProvider(
-          create: (context) => EncryptDecryptData(),
+          create: (context) => EncryptDecryptController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => StopwatchController(),
         ),
       ],
       builder: (context, child) {

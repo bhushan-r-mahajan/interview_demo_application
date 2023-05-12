@@ -1,8 +1,7 @@
 import 'package:encrypt/encrypt.dart' as en;
 import 'package:flutter/material.dart';
 
-class EncryptDecryptData extends ChangeNotifier {
-
+class EncryptDecryptController extends ChangeNotifier {
   en.Encrypted? encrypted;
   String decrypted = "";
 
