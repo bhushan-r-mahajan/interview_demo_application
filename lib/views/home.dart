@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:interview_demo_application/controllers/google_sigin.dart';
-import 'package:interview_demo_application/screens/encrypt_decrypt.dart';
-import 'package:interview_demo_application/screens/login.dart';
-import 'package:interview_demo_application/screens/stopwatch.dart';
+import 'package:interview_demo_application/views/encrypt_decrypt.dart';
+import 'package:interview_demo_application/views/login.dart';
+import 'package:interview_demo_application/views/stopwatch.dart';
 import 'package:provider/provider.dart';
 
 import '../helpers/constants.dart';
 import '../helpers/textstyles.dart';
-import 'todo_list.dart';
+import 'drawer/change_language.dart';
+import 'todo_list/todo_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,7 +49,13 @@ class _HomePageState extends State<HomePage> {
               ),
               InkWell(
                 onTap: () {
-                  //Implement language change here.
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChangeLanguageScreen(),
+                    ),
+                  );
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
@@ -89,6 +96,7 @@ class _HomePageState extends State<HomePage> {
         ),
         body: screens[selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
+          iconSize: 28,
           type: BottomNavigationBarType.fixed,
           onTap: (value) => setState(() {
             selectedIndex = value;

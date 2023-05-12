@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:interview_demo_application/screens/home.dart';
-import 'package:interview_demo_application/screens/login.dart';
+import 'package:interview_demo_application/views/home.dart';
+import 'package:interview_demo_application/views/login.dart';
 
 class GoogleSignInController extends ChangeNotifier {
   bool isLoading = false;

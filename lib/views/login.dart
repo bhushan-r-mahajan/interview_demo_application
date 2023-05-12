@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:interview_demo_application/controllers/google_sigin.dart';
-import 'package:interview_demo_application/screens/home.dart';
+import 'package:interview_demo_application/views/home.dart';
 import 'package:provider/provider.dart';
 
 import '../helpers/constants.dart';

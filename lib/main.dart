@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:interview_demo_application/controllers/encrypt_decrypt.dart';
 import 'package:interview_demo_application/controllers/google_sigin.dart';
 import 'package:interview_demo_application/controllers/stopwatch.dart';
+import 'package:interview_demo_application/controllers/todo.dart';
 import 'package:interview_demo_application/firebase_options.dart';
-import 'package:interview_demo_application/screens/splash.dart';
+import 'package:interview_demo_application/views/splash.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => StopwatchController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TodoController(),
         ),
       ],
       builder: (context, child) {

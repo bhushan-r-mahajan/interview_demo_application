@@ -14,12 +14,12 @@ class EncryptDecryptScreen extends StatefulWidget {
 
 class _EncryptDecryptScreenState extends State<EncryptDecryptScreen> {
   final _formKey = GlobalKey<FormState>();
+  String message = "";
+  String key = "";
+  
   @override
   Widget build(BuildContext context) {
     var encryptDecrypt = Provider.of<EncryptDecryptController>(context);
-    String message = "";
-    String key = "";
-
     return SafeArea(
       child: GestureDetector(
         onTap: () {
