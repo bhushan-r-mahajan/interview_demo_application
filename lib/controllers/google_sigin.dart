@@ -8,6 +8,7 @@ class GoogleSignInController extends ChangeNotifier {
   bool isLoading = false;
   bool isValidLogin = false;
   String userName = "User";
+  String userEmailId = "";
   Widget homePage = const LoginScreen();
 
   //create an instance of firebas auth and google signin
@@ -19,7 +20,6 @@ class GoogleSignInController extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
 
-      //start the authentication flow
       final GoogleSignInAccount? googleUser = await signIn.signIn();
 
       if (googleUser == null) {
@@ -28,20 +28,20 @@ class GoogleSignInController extends ChangeNotifier {
         return;
       }
 
-      //get auth details from request
       final GoogleSignInAuthentication googleSignInAuth =
           await googleUser.authentication;
-      //create new credentials
+
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuth.accessToken,
         idToken: googleSignInAuth.idToken,
       );
-      //Signin the user with credentials
+
       UserCredential userCredential =
           await firebaseAuth.signInWithCredential(credential);
 
       if (userCredential.user != null) {
         userName = userCredential.user!.displayName!;
+        userEmailId = userCredential.user!.email!;
       }
       isValidLogin = true;
       isLoading = false;

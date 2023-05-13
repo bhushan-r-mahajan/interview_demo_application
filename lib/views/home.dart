@@ -4,8 +4,10 @@ import 'package:interview_demo_application/views/encrypt_decrypt.dart';
 import 'package:interview_demo_application/views/login.dart';
 import 'package:interview_demo_application/views/stopwatch.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../helpers/constants.dart';
+import '../components/alert_dialog.dart';
+import '../components/appbar.dart';
 import '../helpers/textstyles.dart';
 import 'drawer/change_language.dart';
 import 'todo_list/todo_list.dart';
@@ -30,17 +32,15 @@ class _HomePageState extends State<HomePage> {
     var googleApis = Provider.of<GoogleSignInController>(context, listen: true);
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("Welcome ${googleApis.userName}"),
-          centerTitle: true,
-        ),
+        appBar: CommonAppBar.appBar(
+            "${AppLocalizations.of(context)!.welcome} ${googleApis.userName}"),
         drawer: Drawer(
           child: Column(
             children: [
               Container(
                 padding: const EdgeInsets.all(20),
                 child: const Text(
-                  Constants.appName,
+                  "Demo App",
                   style: TextStyles.appNameTextStyle,
                 ),
               ),
@@ -59,8 +59,8 @@ class _HomePageState extends State<HomePage> {
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
-                  child: const Text(
-                    "Change Language",
+                  child: Text(
+                    AppLocalizations.of(context)!.changeLanguage,
                     style: TextStyles.defaultBoldTextStyle,
                   ),
                 ),
@@ -70,20 +70,30 @@ class _HomePageState extends State<HomePage> {
               ),
               InkWell(
                 onTap: () async {
-                  await googleApis.googleSignOut();
-                  if (mounted) {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()),
-                      (route) => false,
-                    );
-                  }
+                  await showDialog(
+                    context: context,
+                    builder: (context) => CommonAlertDialog(
+                      title: AppLocalizations.of(context)!.logout,
+                      content: AppLocalizations.of(context)!.logoutMessage,
+                      onPressedOk: () async {
+                        await googleApis.googleSignOut();
+                        if (mounted) {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                            (route) => false,
+                          );
+                        }
+                      },
+                    ),
+                  );
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
-                  child: const Text(
-                    "Logout",
+                  child: Text(
+                    AppLocalizations.of(context)!.logout,
                     style: TextStyles.defaultBoldTextStyle,
                   ),
                 ),
@@ -102,18 +112,18 @@ class _HomePageState extends State<HomePage> {
             selectedIndex = value;
           }),
           currentIndex: selectedIndex,
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.lock),
-              label: "Encryption",
+              icon: const Icon(Icons.lock),
+              label: AppLocalizations.of(context)!.encryption,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.task),
-              label: "To-Do",
+              icon: const Icon(Icons.task),
+              label: AppLocalizations.of(context)!.toDo,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.timer),
-              label: "Stopwatch",
+              icon: const Icon(Icons.timer),
+              label: AppLocalizations.of(context)!.stopwatch,
             ),
           ],
         ),

@@ -3,12 +3,14 @@ import 'package:interview_demo_application/controllers/todo.dart';
 import 'package:interview_demo_application/helpers/textstyles.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../components/appbar.dart';
+import '../../components/button.dart';
 import '../../models/todo.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key, this.task});
-
   final Task? task;
 
   @override
@@ -17,6 +19,7 @@ class AddTaskScreen extends StatefulWidget {
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
   final _formkey = GlobalKey<FormState>();
+  final titleController = TextEditingController();
   DateTime? dateTime;
   String title = "";
   String description = "";
@@ -29,11 +32,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     checkIsEditing();
   }
 
+  @override
+  void dispose() {
+    titleController.dispose();
+    super.dispose();
+  }
+
   void checkIsEditing() {
     if (widget.task != null) {
       setState(() {
-        title = widget.task!.title;
-        description = widget.task!.description!;
+        titleController.text = widget.task!.title;
         dateTime = DateTime.parse(widget.task!.dateTime);
         isEditing = true;
       });
@@ -56,12 +64,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           FocusManager.instance.primaryFocus?.unfocus();
         },
         child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: const Text(
-              "Add Task",
-              style: TextStyles.defaultBoldTextStyle,
-            ),
+          appBar: CommonAppBar.appBar(
+            AppLocalizations.of(context)!.addTask,
           ),
           body: todoController.isLoading
               ? const Center(
@@ -69,32 +73,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 )
               : Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Form(
                     key: _formkey,
                     child: Column(
                       children: [
                         TextFormField(
-                          initialValue: title,
+                          controller: titleController,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Title can't be empty";
+                              return AppLocalizations.of(context)!
+                                  .emptyTaskNameMessage;
                             }
                             return null;
                           },
                           onSaved: (value) => title = value!,
-                          decoration: const InputDecoration(
-                            hintText: "Title",
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                        TextFormField(
-                          initialValue: description,
-                          onSaved: (value) => description = value!,
-                          decoration: const InputDecoration(
-                            hintText: "Description",
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            hintText: AppLocalizations.of(context)!.taskName,
+                            border: const OutlineInputBorder(),
                           ),
                         ),
                         const SizedBox(height: 30),
@@ -138,8 +134,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               children: [
                 Text(
                   dateTime != null
-                      ? DateFormat('EEEE, MMM d, yyyy').format(dateTime!)
-                      : "Select a date",
+                      ? DateFormat('dd/MM/yyyy, h:mm a').format(dateTime!)
+                      : AppLocalizations.of(context)!.dateAndTime,
                   style: TextStyles.defaultTextStyle,
                 ),
                 const Icon(Icons.calendar_month)
@@ -151,7 +147,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             ? Padding(
                 padding: const EdgeInsets.only(top: 6, left: 11),
                 child: Text(
-                  "Date can't be empty",
+                  AppLocalizations.of(context)!.emptyDateMessage,
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
@@ -169,57 +165,51 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: ElevatedButton(
-            onPressed: () async {
-              setState(() => invalidDateTime = false);
-              if (!_formkey.currentState!.validate()) {
-                if (dateTime == null) {
-                  setState(() => invalidDateTime = true);
-                  return;
-                }
-                return;
-              }
-              _formkey.currentState!.save();
-              if (isEditing) {
-                await todoController.updateTask(
-                  id: widget.task!.id,
-                  title: title,
-                  description: description,
-                  dateTime: '$dateTime',
-                );
-              } else {
-                await todoController.addTask(title, description, '$dateTime');
-              }
-
-              if (mounted) {
-                Navigator.pop(context);
-              }
-            },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 15),
-              child: Text(
-                "Save",
-                style: TextStyles.defaultTextStyle,
-              ),
-            ),
+          child: CommonButton(
+            onPressed: () async => validateForm(todoController),
+            buttonText: AppLocalizations.of(context)!.save,
           ),
         ),
         const SizedBox(width: 30),
         Expanded(
-          child: ElevatedButton(
-            onPressed: () {
-              _formkey.currentState!.reset();
-            },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 15),
-              child: Text(
-                "Clear",
-                style: TextStyles.defaultTextStyle,
-              ),
+          child: CommonButton(
+            onPressed: () => setState(
+              () {
+                _formkey.currentState!.reset();
+                titleController.clear();
+                dateTime = null;
+              },
             ),
+            buttonText: AppLocalizations.of(context)!.clear,
           ),
         ),
       ],
     );
+  }
+
+  void validateForm(TodoController todoController) async {
+    setState(() => invalidDateTime = false);
+    if (!_formkey.currentState!.validate()) {
+      if (dateTime == null) {
+        setState(() => invalidDateTime = true);
+        return;
+      }
+      return;
+    }
+    _formkey.currentState!.save();
+    if (isEditing) {
+      await todoController.updateTask(
+        id: widget.task!.id,
+        title: title,
+        description: description,
+        dateTime: '$dateTime',
+      );
+    } else {
+      await todoController.addTask(title, description, '$dateTime');
+    }
+
+    if (mounted) {
+      Navigator.pop(context);
+    }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:interview_demo_application/models/todo.dart';
 
@@ -10,7 +11,12 @@ class TodoController extends ChangeNotifier {
       String title, String? description, String dateTime) async {
     isLoading = true;
     notifyListeners();
-    final docRef = FirebaseFirestore.instance.collection('tasks').doc();
+    final user = FirebaseAuth.instance.currentUser;
+    final docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.email!)
+        .collection('tasks')
+        .doc();
     final task = Task(
       id: docRef.id,
       title: title,
@@ -25,7 +31,12 @@ class TodoController extends ChangeNotifier {
   }
 
   Future<void> fetchTaskById(String id) async {
-    final docRef = FirebaseFirestore.instance.collection('tasks').doc(id);
+    final user = FirebaseAuth.instance.currentUser;
+    final docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.email!)
+        .collection('tasks')
+        .doc(id);
     final snapshot = await docRef.get();
     if (snapshot.exists) {
       task = Task.fromJson(snapshot.data()!);
@@ -41,7 +52,12 @@ class TodoController extends ChangeNotifier {
   }) async {
     isLoading = true;
     notifyListeners();
-    final docRef = FirebaseFirestore.instance.collection('tasks').doc(id);
+    final user = FirebaseAuth.instance.currentUser;
+    final docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.email!)
+        .collection('tasks')
+        .doc(id);
     final task = Task(
       id: docRef.id,
       title: title,
@@ -55,18 +71,30 @@ class TodoController extends ChangeNotifier {
   }
 
   Future<void> deleteTaskById(String id) async {
-    final docRef = FirebaseFirestore.instance.collection('tasks').doc(id);
+    final user = FirebaseAuth.instance.currentUser;
+    final docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.email!)
+        .collection('tasks')
+        .doc(id);
     await docRef.delete();
   }
 
-  Stream<List<Task>> fetchTasks() =>
-      FirebaseFirestore.instance.collection('tasks').snapshots().map(
-            (snapshot) => snapshot.docs
-                .map(
-                  (doc) => Task.fromJson(
-                    doc.data(),
-                  ),
-                )
-                .toList(),
-          );
+  Stream<List<Task>> fetchTasks() {
+    final user = FirebaseAuth.instance.currentUser;
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.email!)
+        .collection('tasks')
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map(
+                (doc) => Task.fromJson(
+                  doc.data(),
+                ),
+              )
+              .toList(),
+        );
+  }
 }

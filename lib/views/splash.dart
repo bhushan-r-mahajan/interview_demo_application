@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:interview_demo_application/helpers/constants.dart';
 import 'package:interview_demo_application/helpers/textstyles.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/google_sigin.dart';
+import '../controllers/language.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,6 +20,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateToNextScreen() async {
+    final localeController =
+        Provider.of<LanguageController>(context, listen: false);
+    localeController.checkLanguage();
     var googleApis =
         Provider.of<GoogleSignInController>(context, listen: false);
     await Future.delayed(const Duration(seconds: 3), () async {
@@ -41,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return const Scaffold(
       body: Center(
         child: Text(
-          Constants.appName,
+          "Demo App",
           style: TextStyles.appNameTextStyle,
         ),
       ),
