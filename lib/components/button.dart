@@ -29,7 +29,7 @@ class CommonButton extends StatelessWidget {
           children: [
             assetImage != null
                 ? Padding(
-                    padding: const EdgeInsets.only(right: 20),
+                    padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Image.asset(
                       assetImage!,
                       height: 30,
