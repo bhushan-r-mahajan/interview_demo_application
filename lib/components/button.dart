@@ -18,12 +18,24 @@ class CommonButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      child: Container(
-        padding: const EdgeInsets.only(top: 12, bottom: 12),
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xff7F00FF),
+            Color(0xffE100FF),
+          ],
+        ),
+      ),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          padding: const EdgeInsets.only(top: 12, bottom: 12),
+        ),
+        onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

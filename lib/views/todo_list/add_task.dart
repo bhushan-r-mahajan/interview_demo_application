@@ -138,7 +138,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       : AppLocalizations.of(context)!.dateAndTime,
                   style: TextStyles.defaultTextStyle,
                 ),
-                const Icon(Icons.calendar_month)
+                const Icon(
+                  Icons.calendar_month,
+                  color: Colors.white,
+                )
               ],
             ),
           ),

@@ -73,9 +73,22 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
               ),
             );
           },
-          child: const Icon(
-            Icons.add,
-            size: 28,
+          child: Container(
+            height: 60,
+            width: 60,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xff7F00FF),
+                  Color(0xffE100FF),
+                ],
+              ),
+            ),
+            child: const Icon(
+              Icons.add,
+              size: 30,
+            ),
           ),
         ),
       ),

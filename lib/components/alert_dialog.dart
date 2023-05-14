@@ -19,6 +19,7 @@ class CommonAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Colors.grey[900],
       title: Text(
         title,
         style: TextStyles.defaultBoldTextStyle,

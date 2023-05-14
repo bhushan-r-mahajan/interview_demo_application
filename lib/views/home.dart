@@ -35,73 +35,24 @@ class _HomePageState extends State<HomePage> {
         appBar: CommonAppBar.appBar(
             "${AppLocalizations.of(context)!.welcome} ${googleApis.userName}"),
         drawer: Drawer(
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(20),
-                child: const Text(
-                  "Demo App",
-                  style: TextStyles.appNameTextStyle,
-                ),
-              ),
-              const Divider(
-                thickness: 2,
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ChangeLanguageScreen(),
-                    ),
-                  );
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    AppLocalizations.of(context)!.changeLanguage,
-                    style: TextStyles.defaultBoldTextStyle,
+          child: Container(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(top: 30, bottom: 20),
+                  child: const Text(
+                    "Demo App",
+                    style: TextStyles.appNameTextStyle,
                   ),
                 ),
-              ),
-              const Divider(
-                thickness: 2,
-              ),
-              InkWell(
-                onTap: () async {
-                  await showDialog(
-                    context: context,
-                    builder: (context) => CommonAlertDialog(
-                      title: AppLocalizations.of(context)!.logout,
-                      content: AppLocalizations.of(context)!.logoutMessage,
-                      onPressedOk: () async {
-                        await googleApis.googleSignOut();
-                        if (mounted) {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ),
-                            (route) => false,
-                          );
-                        }
-                      },
-                    ),
-                  );
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    AppLocalizations.of(context)!.logout,
-                    style: TextStyles.defaultBoldTextStyle,
-                  ),
-                ),
-              ),
-              const Divider(
-                thickness: 2,
-              ),
-            ],
+                _buildDivider(),
+                _buildChangeLanguageContainer(),
+                _buildDivider(),
+                _buildLogoutContainer(googleApis),
+                _buildDivider(),
+              ],
+            ),
           ),
         ),
         body: screens[selectedIndex],
@@ -126,6 +77,67 @@ class _HomePageState extends State<HomePage> {
               label: AppLocalizations.of(context)!.stopwatch,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Divider(
+      thickness: 2,
+      color: Colors.grey[600],
+    );
+  }
+
+  Widget _buildChangeLanguageContainer() {
+    return InkWell(
+      onTap: () {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ChangeLanguageScreen(),
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        child: Text(
+          AppLocalizations.of(context)!.changeLanguage,
+          style: TextStyles.defaultBoldTextStyle,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLogoutContainer(GoogleSignInController googleApis) {
+    return InkWell(
+      onTap: () async {
+        await showDialog(
+          context: context,
+          builder: (context) => CommonAlertDialog(
+            title: AppLocalizations.of(context)!.logout,
+            content: AppLocalizations.of(context)!.logoutMessage,
+            onPressedOk: () async {
+              await googleApis.googleSignOut();
+              if (mounted) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                  (route) => false,
+                );
+              }
+            },
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.only(top: 15, bottom: 15),
+        child: Text(
+          AppLocalizations.of(context)!.logout,
+          style: TextStyles.defaultBoldTextStyle,
         ),
       ),
     );

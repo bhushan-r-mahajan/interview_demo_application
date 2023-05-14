@@ -42,9 +42,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         final localeController = Provider.of<LanguageController>(context);
         return MaterialApp(
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
+          theme: _buildThemeForApp(context),
           debugShowCheckedModeBanner: false,
           home: const SplashScreen(),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -52,6 +50,42 @@ class MyApp extends StatelessWidget {
           locale: localeController.locale,
         );
       },
+    );
+  }
+
+  ThemeData _buildThemeForApp(BuildContext context) {
+    return ThemeData(
+      primarySwatch: Colors.blue,
+      scaffoldBackgroundColor: Colors.grey.shade900,
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.grey.shade900,
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: Colors.grey.shade900,
+        unselectedItemColor: Colors.grey,
+        selectedItemColor: Colors.white,
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: MaterialStateColor.resolveWith(
+          (states) => const Color.fromARGB(192, 225, 0, 255),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: const TextStyle(color: Colors.white),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 1, color: Colors.grey.shade500),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(width: 1, color: Colors.white),
+        ),
+      ),
+      drawerTheme: DrawerThemeData(
+        backgroundColor: Colors.grey.shade900,
+      ),
+      textTheme: Theme.of(context).textTheme.apply(
+            bodyColor: Colors.white,
+            displayColor: Colors.white,
+          ),
     );
   }
 }

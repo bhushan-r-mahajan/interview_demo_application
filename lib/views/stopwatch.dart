@@ -75,15 +75,28 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   }
 
   Widget circularButton(IconData icon, Function() onPressed) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        shape: const CircleBorder(),
-        padding: const EdgeInsets.all(15),
+    return Container(
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          colors: [
+            Color(0xff7F00FF),
+            Color(0xffE100FF),
+          ],
+        ),
       ),
-      child: Icon(
-        icon,
-        size: 40,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          shape: const CircleBorder(),
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          padding: const EdgeInsets.all(20),
+        ),
+        child: Icon(
+          icon,
+          size: 30,
+        ),
       ),
     );
   }
